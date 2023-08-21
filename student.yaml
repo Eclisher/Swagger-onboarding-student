@@ -199,15 +199,15 @@ paths:
       operationId: deleteTeacher
 
       parameters:
-        - name: studentId
+        - name: Teachername
           in: path
           required: true
           schema:
             type: integer
-          description: ID of the student to delete
+          description: names of the teacher to delete
       responses:
         "204":
-          description: Student deleted successfully
+          description: teacher deleted successfully
         '500':
           description: Internal Server Error
 
