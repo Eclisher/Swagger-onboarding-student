@@ -7,6 +7,8 @@ servers:
 paths:
   /students:
     get:
+      tags:
+      - Student
       summary: See the students
       operationId: SeeStudents
       responses:
@@ -29,6 +31,9 @@ paths:
             - write:pets
             - read:pets
     post:
+      tags:
+      - Student
+
       summary: Insert a new Student
       operationId: addStudent
       requestBody:
@@ -55,8 +60,175 @@ paths:
                     type: string
                   birthdate:
                     format: date
+
+  /students/{studentId}:
+    put:
+      tags:
+        - Student
+      summary: Update a Student
+      operationId: updateStudent
+
+
+      parameters:
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the student to update 
+      
+      requestBody:
+        description: Update student data
+        required: true
+        content:
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/User'
+      responses:
+        "200":
+          description: Student updated successfully
+        '500':
+          description: Internal Server Error              
+    delete:
+      tags:
+        - Student    
+      summary: Delete a Student
+      operationId: deleteStudent
+
+      parameters:
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the student to delete
+      responses:
+        "204":
+          description: Student deleted successfully
+        '500':
+          description: Internal Server Error
+
+
+  /teachers:
+    get:
+      tags:
+      - Teachers
+      summary: See the students
+      operationId: SeeTeacher
+      responses:
+        "200":
+          description: Results
+          content:
+            application/json:
+              schema:
+               items:
+                $ref: '#/components/schemas/Teachers'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Teachers'
+        '500':
+          description: Internal Server Error
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+    post:
+      tags:
+      - Teachers
+
+      summary: Insert a new Teacher
+      operationId: addTeachers
+      requestBody:
+        description: To create a new teachers
+        required: true
+        content:
+          application/json:
+            schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Teachers'
+
+      responses:
+        "201":
+          description: New teacher created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lastname:
+                    type: string
+                  firstname:
+                    type: string
+                  module:
+                    format: date
+
+  /teachers/{teachers}:
+    put:
+      tags:
+        - Teachers
+      summary: Update a Teachers
+      operationId: updateTeach
+
+      parameters:
+        - name: nameTeachers
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Name of the Teacher
+      
+      requestBody:
+        description: Update teachers data
+        required: true
+        content:
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/Teachers'
+      responses:
+        "200":
+          description: Teacher updated successfully
+        '500':
+          description: Internal Server Error
+    delete:
+      tags:
+        - Teachers    
+      summary: Delete a Teacher
+      operationId: deleteTeacher
+
+      parameters:
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the student to delete
+      responses:
+        "204":
+          description: Student deleted successfully
+        '500':
+          description: Internal Server Error
+
 components:
   schemas:
+    Teachers:
+     type: object
+     properties:
+      lastname:
+        type: string
+        example: RAMAROZAKA
+      firstname:
+        type: string
+        example: Tokimahery
+      module:
+        type: array
+        items:
+          oneOf:
+            - $ref: '#/components/schemas/Prog1'
+            - $ref: '#/components/schemas/Prog2'
+            - $ref: '#/components/schemas/Donnés1'
     User:
       type: object
       properties:
@@ -69,4 +241,44 @@ components:
           example: Harizo
         birthdate:
           format: date
-          
+
+    Prog1: 
+        type: object
+        properties:
+          courseName:
+            type: string
+            example: Algorithme
+          courseCode:
+            type: string
+            example: PROG1
+          duration:
+            type: integer
+            format: int64
+            example: 2  
+    Prog2:
+        type: object
+        properties:
+          courseName:
+            type: string
+            example: Programmation Orientée Objet
+          courseCode:
+            type: string
+            example: PROG2
+          duration:
+            type: integer
+            format: int64
+            example: 2       
+
+    Donnés1:
+        type: object
+        properties:
+          courseName:
+            type: string
+            example: Base de donné POSTGRES
+          courseCode:
+            type: string
+            example: Données1
+          duration:
+            type: integer
+            format: int64
+            example: 2   
