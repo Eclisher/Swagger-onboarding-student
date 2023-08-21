@@ -29,7 +29,7 @@ paths:
             - write:pets
             - read:pets
     post:
-      summary: Make an insertion
+      summary: Insert a new Student
       operationId: addStudent
       requestBody:
         description: To create a new student
@@ -37,21 +37,9 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                id:
-                  type: integer
-                name:
-                  type: string
-                birthdate:
-                  format: date
-                gender:
-                  format: char
-              example:
-                id: 4
-                name: Yrouane
-                birthdate: "2001-01-18"
-                gender: M
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
 
       responses:
         "201":
@@ -67,8 +55,6 @@ paths:
                     type: string
                   birthdate:
                     format: date
-                  gender:
-                    format: char
 components:
   schemas:
     User:
@@ -80,7 +66,7 @@ components:
           example: 1
         username:
           type: string
-          example: Rakoto
+          example: Harizo
         birthdate:
           format: date
           
